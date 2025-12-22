@@ -177,14 +177,13 @@
 .notes-container{
     top: 10px;
     margin-top: 10px;
-    background-color: #f9f9f9;
     padding: 10px;
-    color: #007BFF;
+    font-size: 12px;
+    letter-spacing: 2px; ;
     border-radius: 5px;
-    border: 1px solid #007BFF;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     animation: notes 2s forwards;
-    width: 250px;
+    border-radius: 10px;
+
 }
 .note-items{ 
     position: absolute;
@@ -197,8 +196,8 @@
     0% { transform: translatex(110%); }
     10%{ transform: translatex(110%); }
     50%{ transform: translatex(0); }
-    90%{    transform: translatex(0); }
-    100% {  transform: translatex(100%);
+    75%{    transform: translatex(0); }
+    100% {  transform: translatex(110%);
         display: none;
      }
 }
