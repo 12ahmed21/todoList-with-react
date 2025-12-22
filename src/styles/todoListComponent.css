@@ -1,0 +1,204 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    border: none;
+    outline: none;
+}
+ ::scroll-marker{
+    display: none;
+}
+::-webkit-scrollbar {
+    width: 2px;
+    background-color: #ffffff;
+    color: white;
+}
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+
+        background-color: #377cc59a;
+    border-radius: 4px;
+    width: 2px;
+}
+.todo-list-component {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    border: 1px solid #000000;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+.todo-list-component h1 {
+    color: #333;
+    letter-spacing: 5px;
+}
+.navBar {
+    background-color: #f8f8f8;
+    padding: 10px;
+
+}
+.all-todos {
+    padding-top: 10px;
+    padding-bottom: 40px;
+    margin-top: 20px;
+    height: 300px;
+    width: 520px;
+    position: relative;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+    .todo-item-buttons{
+        display: flex;
+        opacity: 0;
+        width: auto;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        position:absolute;
+        right: 0;
+        bottom: -20px;
+        transition: 0.3s;
+        z-index: -1;
+        align-items: center;
+    }
+.todo-item {
+    transition: 0.5s;
+    padding: 10px;
+    border: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    animation: fadeIn 1s forwards;
+    width: 480px;
+    z-index: 1;
+    position: relative;
+    & div:nth-child(1){
+        width: 100%;
+        word-wrap: break-word;
+    }
+}
+.todo-item:hover{
+    border: 1px solid #007BFF;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.todo-item:hover{
+    margin-bottom: 40px;
+    .todo-item-buttons{
+        opacity: 1; 
+        bottom: -42px;
+    }
+
+}
+.add-value-input {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    & input{
+        width: 400px;
+        position: relative;
+        transition: 0.3s;
+    }
+}
+
+.no-todos{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: gray;
+    font-size: 17px;
+    font-weight: bold;
+
+}
+.edit-todo-component{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    z-index: 10000;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    animation: fadeIn 0.5s forwards;
+    & input{ 
+        width: 400px;
+        position: relative;
+        transition: 0.3s;
+    }
+}
+.buttons-edit-todo{
+    display: flex;
+    gap: 10px;
+}
+.edit-input-container{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.blurer{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.5s forwards;
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+.dataContaner{
+    margin-right: 10px;
+    font-size: 12px;
+    color: gray;
+}
+.notes-container{
+    top: 10px;
+    margin-top: 10px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    color: #007BFF;
+    border-radius: 5px;
+    border: 1px solid #007BFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: notes 2s forwards;
+    width: 250px;
+}
+.note-items{ 
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    margin: 5px 0;
+    font-size: 14px;
+}
+@keyframes notes {
+    0% { opacity: 0; }
+    10%{ opacity: 0; }
+    50%{ opacity: 1; }
+    90%{ opacity: 1; }
+    100% { opacity: 0;
+        display: none;
+     }
+}
