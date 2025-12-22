@@ -22,7 +22,6 @@ export default function ActiveTodos() {
     );
     let filteredTodos = todoListShow.filter(item => item !== undefined && item.length !== 0);
     todoListShow = filteredTodos;
-    console.log(todoListShow);
     return (
         <>{todoListShow.length > 0 ? todoListShow : <div className="no-todos">No todos in progress</div>}</>
     );

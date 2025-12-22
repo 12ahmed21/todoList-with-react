@@ -25,7 +25,6 @@ export default function CompletedTodos() {
     );
     let filteredTodos = todoListShow.filter(item => item !== undefined && item.length !== 0);
     todoListShow = filteredTodos;
-    console.log(todoListShow);
     return (
         <>{todoListShow.length > 0 ? todoListShow : <div className="no-todos">No todos has been completed</div>}</>
     );

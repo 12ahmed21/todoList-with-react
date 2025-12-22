@@ -17,7 +17,9 @@ export default function TodoListComponent() {
     let [notesVisible, setNotesVisible] = useState([
 
     ]);
-    let [DeleteWorningId, setDeleteWorningId] = useState('');
+    let [DeleteWorningId, setDeleteWorningId] = useState(''
+
+    );
     let [isDeleteWorning, setIsDeleteWorning] = useState(false);
     let [readyValue, setReadyValue] = useState("");
     let [indexEdit, setIndexEdit] = useState(0);
@@ -70,7 +72,7 @@ export default function TodoListComponent() {
     }
     useEffect(() => {
         let savedTodos = JSON.parse(localStorage.getItem("todos"));
-        setTodosList(savedTodos);
+        setTodosList(savedTodos && savedTodos.length ? savedTodos : []);
     }, []);
     function deleteTodo(id) {
         setTodosList((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
