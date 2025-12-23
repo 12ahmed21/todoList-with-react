@@ -1,18 +1,16 @@
-// import {}
+
 import NavBar from './navBar.jsx';
-import {Route,Routes,Link} from 'react-router-dom';
+import {Route,Routes} from 'react-router-dom';
 import AddValueInput from './AddValueInput.jsx';
 import './styles/todoListComponent.css';
+import {useState, useEffect,useMemo,useReducer} from "react"
 import { AddNowTodoContext } from './contexts/addNowTodoContext.jsx';
-import { useContext, useEffect,useState } from 'react';
 import {TodoContext} from './contexts/todoContext.jsx';
 import AllTodos from './allTodos.jsx';
-import ActiveTodos from './activeTodo.jsx';
-import CompletedTodos from './completedTodo.jsx';
 import EditTodoComponent from './editTodoComponent.jsx';
-import { Edit } from '@mui/icons-material';
 import DeleteWorning from './deleteWorning.jsx';
 import Notes from './notes.jsx';
+import { todoReducer } from './reducers/todoReducer.jsx';
 export default function TodoListComponent() {
     let [notesVisible, setNotesVisible] = useState([
 
@@ -24,9 +22,20 @@ export default function TodoListComponent() {
     let [readyValue, setReadyValue] = useState("");
     let [indexEdit, setIndexEdit] = useState(0);
     let [isEdit, setIsEdit] = useState(false);
-          let [todosList, setTodosList] = useState([
+    let [todoList2,dispatch] = useReducer(todoReducer,[])
+    const completedTodo = useMemo(()=>{
+        return todoList2.filter((t)=>{
+            return t.completed
+        })
+    }, [todoList2])
+    const notcompletedTodo = useMemo(()=>{
+        return todoList2.filter((t)=>{
+ 
+            return !t.completed
 
-    ]);
+        })
+    }, [todoList2])
+    
     function toggleNotes(value) {
         setNotesVisible(value);
     }
@@ -43,59 +52,46 @@ export default function TodoListComponent() {
        setReadyValue(value)
     }
     function setEdit(){
-        setTodosList((p)=>
-        p.map((todo)=>{
-            if(todo.id === indexEdit){
-                todo.text = readyValue
-                return todo
+        dispatch({type:"edit",path:{
+            nowValue:readyValue,
+            id:indexEdit
+        }})
 
-            }else{
-                return todo
-            }
-        }))
-        localStorage.setItem("todos",JSON.stringify(todosList))
         toggleNotes( p => [...p,{title: "Edit todo success", id: crypto.randomUUID()}]);
     }
+
     function handleIsEditChange() {
         setIsEdit(!isEdit);
     }
+
     function addTodo(newTodoText) {
-        let time = new Date().toLocaleString().slice(0,10);
-
-        
-        let newTodo = [...todosList,
-            { text: newTodoText, completed: 0, id:crypto.randomUUID(), time: time },]
-        setTodosList(newTodo);
-        localStorage.setItem( "todos",JSON.stringify(newTodo));
-                toggleNotes( p => [...p,{title: "Add todo success", id: crypto.randomUUID()}]);
+        dispatch({type:"add",path:{
+            text:newTodoText
+        }})
+        toggleNotes( p => [...p,{title: "Add todo success", id: crypto.randomUUID()}]);
 
     }
+
     useEffect(() => {
-        let savedTodos = JSON.parse(localStorage.getItem("todos"));
-        setTodosList(savedTodos && savedTodos.length ? savedTodos : []);
+        dispatch({type:"get"})
     }, []);
+
+
     function deleteTodo(id) {
-        setTodosList((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
-        let updatedTodos = todosList.filter((todo) => todo.id !== id);
-        localStorage.setItem( "todos",JSON.stringify(updatedTodos));
-                toggleNotes( p => [...p,{title: "Delete todo success", id: crypto.randomUUID()}]);
+        dispatch({type:"remove",path:{
+            text:id
+        }})
+        toggleNotes( p => [...p,{title: "Delete todo success", id: crypto.randomUUID()}]);
     }
+
     function completeTodo(id) {
-        setTodosList((prevTodos)=>
-            prevTodos.map((todo)=>{
-                if(todo.id === id){ 
-                    todo.completed = 1
-                    return todo
-                }else{
-                    return todo
-                }
-            })
-        )
-                localStorage.setItem( "todos",JSON.stringify(todosList));
+        dispatch({type:"completed",path:{
+            id:id
+        }})
                 toggleNotes( p => [...p,{title: "good job 👏", id: crypto.randomUUID()}]);
     }
     return (
-        <TodoContext.Provider value={{todosList:todosList, setTodosList:setTodosList}}>
+        <TodoContext.Provider value={{ completedTodo , notcompletedTodo}}>
         <AddNowTodoContext.Provider value={{
             addTodo,
             deleteTodo,
@@ -121,15 +117,13 @@ export default function TodoListComponent() {
                 <NavBar />
                 <div className="all-todos">
                 <EditTodoComponent />
-                
                 <DeleteWorning />
                     <Routes>
-                        <Route path='/' element={<AllTodos />} />
-                        <Route path='/active' element={<ActiveTodos />} />
-                        <Route path='/completed' element={<CompletedTodos />} />
+                        <Route path='/' element={<AllTodos title ={ "no todos yet"}  value ={todoList2}/>} />
+                        <Route path='/active' element={<AllTodos title ={ "There are no tasks in progress"}  value = {notcompletedTodo} />} />
+                        <Route path='/completed' element={<AllTodos title ={ "no tasks has been completed"}  value ={completedTodo} />} />
                     </Routes>
                 </div>
-
                 <AddValueInput />
 
             </div>  

@@ -5,12 +5,15 @@ import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutli
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import IconButton from '@mui/material/IconButton';
-export default function ButtonsComponent({combleted,id,text,date,timeFinished}){
+export default function ButtonsComponent({combleted,id,text,date,timeFinished,timeNeeded}){
     const {completeTodo, deleteTodo,handleIsEditChange,handleIndexEditChange,setReadyValue,handleDeleteWorningChange,handleSetDeleteWorningId} = useContext(AddNowTodoContext);
     return(
         <div className="todo-item-buttons">
           {timeFinished !== undefined && combleted ?
-       <span className='dataContaner' style={{letterSpacing:"1px"}}> finished  {timeFinished?`at ${timeFinished} day ago `:"today"}</span>
+       <span className='dataContaner' style={{letterSpacing:"1px"}}>(finished  {timeFinished?`at ${timeFinished} day ago `:"today"})</span>
+        : null}
+          {timeNeeded !== undefined && combleted ?
+       <span className='dataContaner' style={{letterSpacing:"1px"}}> time you needed to finish  {timeNeeded} days</span>
         : null}
          <span className='dataContaner'>{date}</span>
       <IconButton aria-label="fingerprint" color="error" onClick={() =>{ handleSetDeleteWorningId(id); handleDeleteWorningChange();}} >
